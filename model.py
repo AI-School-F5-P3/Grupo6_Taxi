@@ -47,3 +47,9 @@ class Taximetro:
             self.total += time_elapsed * self.fare_stopped
         print(f"La carrera ha terminado. El total a cobrar es: {self.total:.2f} euros.")
         return self.total
+    
+    def clear(self):
+        self.start_road = True
+        self.last_status_change= None
+        self.fare_total = 0
+        self.in_movement = False
