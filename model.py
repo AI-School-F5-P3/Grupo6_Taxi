@@ -10,7 +10,7 @@ class Taximetro:
         self.fare_total = 0 #ira aumentando segun se mueva o este en espera despues de iniciar la carrera
         self.in_movement = False
     def start(self):
-        print("Se inicia el recorrido.")
+        print("start the road trip.")
         self.start_road = True 
         self.fare_total = 0
         self.in_movement = False
