@@ -18,3 +18,6 @@ class Taximetro:
     def move(self):
         print("The taxi is moving on the road.")
         self.in_movement = True
+    def stop(self):
+        print("Taxi stopped.")
+        self.in_movement = False
