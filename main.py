@@ -8,7 +8,12 @@ def main():
     taximetro = Taximetro()
 
     print("Bienvenido al Taxímetro Digital!")
-    print("Estos son los comandos disponibles: empezar, parar, continuar, finalizar; con ellos puede usar el programa.")
+    print('''Estos son los comandos disponibles: empezar,
+          - parar
+          - continuar
+          - finalizar
+            con ellos puede usar el programa. \n''')
+
 
     while True:
         comando = input("Ingrese un comando: ")
