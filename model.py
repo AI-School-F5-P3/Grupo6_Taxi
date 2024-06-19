@@ -1,17 +1,17 @@
 import time
-import datetime
-
 
 class Taximetro:
     fare_movement = 0.05  # tarifa en movimiento en centimos de euro por segundo
     fare_stop = 0.02 #tarifa en reposo de centimos en euro por segundo
+
     def __init__(self):
         self.time_start= None
-        self.start_road = True
+        self.start_road = False
         self.last_status_change= None
         self.initial_fare = 0
         self.fare_total = 0 #ira aumentando segun se mueva o este en espera despues de iniciar la carrera
         self.in_movement = False
+
     def calculate_fare(self):
         if self.time_start:
             time_elapsed = time.time() - self.time_start
@@ -23,13 +23,14 @@ class Taximetro:
 
     def start(self):
         print("Comenzar la carrera.")
-        self.start_road = True 
-        self.fare_total = 0
-        self.in_movement = False
+        self.start_road = True
+        self.last_status_change = time.time()
         self.calculate_fare()
+
     def move(self):
         print("El taxi inicio la carrera.")
         self.in_movement = True
+
     def stop(self):
         print("El taxi se ha detenido. ")
         self.in_movement = False
@@ -45,7 +46,6 @@ class Taximetro:
             else:
                 self.fare_total += time_elapsed * self.fare_stop
         self.last_status_change = now
-        # estado = "movimiento" if in_movement else "parado"
         print(f"El taxi esta en movimiento.")
     
     def finish_road(self):
@@ -58,7 +58,7 @@ class Taximetro:
         return self.fare_total
     
     def clear(self):
-        self.start_road = True
+        self.start_road = False
         self.last_status_change= None
         self.fare_total = 0
         self.in_movement = False

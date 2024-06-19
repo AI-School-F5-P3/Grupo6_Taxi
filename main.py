@@ -21,6 +21,7 @@ def main():
             taximetro.continue_road()
         elif comando == "finalizar":
             taximetro.finish_road()
+            taximetro.clear()
         else:
             print("Comando inválido. Intente de nuevo.")
 
