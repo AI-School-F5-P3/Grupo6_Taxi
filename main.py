@@ -8,7 +8,8 @@ def main():
     taximetro = Taximetro()
 
     print("Bienvenido al Taxímetro Digital!")
-    print('''Estos son los comandos disponibles: empezar,
+    print('''Estos son los comandos disponibles: 
+          - empezar,
           - parar
           - continuar
           - finalizar
