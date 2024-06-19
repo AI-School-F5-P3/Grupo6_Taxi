@@ -16,9 +16,9 @@ def main():
           - finalizar
             con ellos puede usar el programa.\n''')
 
-
     while True:
         comando = input("Ingrese un comando: ")
+
         if comando == "empezar":
             taximetro.start()
         elif comando == "parar":
@@ -30,7 +30,6 @@ def main():
             taximetro.clear()
         else:
             print("Comando inválido. Intente de nuevo.")
-
 
 if __name__ == "__main__":
     main()
