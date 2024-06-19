@@ -27,10 +27,6 @@ class Taximetro:
         self.last_status_change = time.time()
         self.calculate_fare()
 
-    def move(self):
-        print("El taxi inicio la carrera.")
-        self.in_movement = True
-
     def stop(self):
         print("El taxi se ha detenido. ")
         self.in_movement = False
