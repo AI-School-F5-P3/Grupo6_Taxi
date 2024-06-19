@@ -1,4 +1,5 @@
 from model import Taximetro
+import time
 
 #Función main():
 #Crea una instancia de la clase Taximetro.
@@ -18,7 +19,6 @@ def main():
 
     while True:
         comando = input("Ingrese un comando: ")
-
         if comando == "empezar":
             taximetro.start()
         elif comando == "parar":
