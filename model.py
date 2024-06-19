@@ -8,7 +8,6 @@ class Taximetro:
         self.time_start= None
         self.start_road = False
         self.last_status_change= None
-        self.initial_fare = 0
         self.fare_total = 0 #ira aumentando segun se mueva o este en espera despues de iniciar la carrera
         self.in_movement = False
 
