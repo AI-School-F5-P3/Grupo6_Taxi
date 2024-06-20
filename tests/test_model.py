@@ -21,11 +21,15 @@ def test_trip_start_to_finish(taximeter):
 
 def test_trip_movement(taximeter):
 	taximeter.start()
+	print(taximeter.fare_total)
 	taximeter.continue_road()
+	print(taximeter.fare_total)
 	time.sleep(10)
 	taximeter.stop()
+	print(taximeter.fare_total)
 	time.sleep(4)
 	taximeter.finish_road()
+	print(taximeter.fare_total)
 	exp_fare = (10 * taximeter.fare_movement) + (4 * taximeter.fare_stop)
 	assert taximeter.fare_total == exp_fare, \
 		f"El total esperado es: {exp_fare}, no {taximeter.fare_total}"
