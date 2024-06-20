@@ -28,8 +28,11 @@ def main():
         elif comando == "finalizar":
             taximetro.finish_road()
             taximetro.clear()
+        elif comando == "historial":
+            taximetro.view_history()
         else:
             print("Comando inválido. Intente de nuevo.")
+    
 
 
 if __name__ == "__main__":
