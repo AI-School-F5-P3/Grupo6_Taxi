@@ -5,7 +5,7 @@ def calculate_peak_fare(in_movement):
     hour = current_time.hour
 
     # Definir horas pico
-    if (7 <= hour < 12) or (22 <= hour or hour < 6):
+    if (hour < 12) or (hour >= 22):
         if in_movement:
             return 0.1  # Tarifa en movimiento durante horas pico
         else:

@@ -18,9 +18,8 @@ class Taximetro:
         now = time.time()
         if self.last_status_change is not None:
             time_elapsed = now - self.last_status_change
-            base_fare = self.fare_movement if self.in_movement else self.fare_stop
-            adjusted_fare = calculate_peak_fare(self.in_movement)
-            self.fare_total += round(time_elapsed * self.fare_stop, 2)
+            fare = calculate_peak_fare(self.in_movement)
+            self.fare_total += round(time_elapsed * fare, 2)
         self.last_status_change = now
 
     def start(self):
@@ -32,17 +31,16 @@ class Taximetro:
 
     def stop(self):
         print("El taxi se ha detenido. ")
-        self.in_movement = False
         self.calculate_fare()
+        self.in_movement = False
 
     def continue_road(self):   
         if self.start_road:
-            self.in_movement = True
             self.calculate_fare()
+            self.in_movement = True
             print(f"El taxi esta en movimiento.")
     
     def finish_road(self):
-        self.in_movement = not self.in_movement
         self.calculate_fare()
         self.start_road = False
         self.end_time = datetime.now() # Guarda la fecha y hora de finalización
