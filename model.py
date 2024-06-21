@@ -1,5 +1,6 @@
 import time
 from datetime import datetime
+from fare_ondemand import calculate_peak_fare
 
 class Taximetro:
     fare_movement = 0.05  # tarifa en movimiento en centimos de euro por segundo
@@ -15,18 +16,18 @@ class Taximetro:
 
     def calculate_fare(self):
         now = time.time()
-        time_elapsed = now - self.last_status_change
-        if self.in_movement:
+        if self.last_status_change is not None:
+            time_elapsed = now - self.last_status_change
+            base_fare = self.fare_movement if self.in_movement else self.fare_stop
+            adjusted_fare = calculate_peak_fare(self.in_movement)
             self.fare_total += round(time_elapsed * self.fare_stop, 2)
-        else:
-            self.fare_total += round(time_elapsed * self.fare_movement, 2)
         self.last_status_change = now
 
     def start(self):
         print("Comenzar la carrera.")
         self.start_road = True
         self.last_status_change = time.time()
-        self.start_time = datetime.now()  # Guarda la fecha y hora de inicio
+        self.start_time = datetime.now() # Guarda la fecha y hora de inicio
         #self.calculate_fare()
 
     def stop(self):
@@ -44,19 +45,18 @@ class Taximetro:
         self.in_movement = not self.in_movement
         self.calculate_fare()
         self.start_road = False
-        self.end_time = datetime.now()  # Guarda la fecha y hora de finalización
+        self.end_time = datetime.now() # Guarda la fecha y hora de finalización
         print(f"La carrera ha terminado. El total a cobrar es: {self.fare_total:.2f} euros.")
-        self.save_ride_history() #Guarda el historial
+        self.save_ride_history()
         return self.fare_total
     
-
     def save_ride_history(self):
         with open('rides_history.txt', mode='a', encoding='utf-8') as file:
             file.write(f"Fecha de inicio: {self.start_time}\n")
             file.write(f"Fecha de fin: {self.end_time}\n")
             file.write(f"Total a cobrar: €{self.fare_total:.2f}\n")
             file.write("=======================================\n")
-
+    
     def view_history(self):
         try:
             with open('rides_history.txt', mode='r', encoding='utf-8') as file:
@@ -68,7 +68,7 @@ class Taximetro:
 
     def clear(self):
         self.start_road = False
-        self.last_status_change = None
+        self.last_status_change= None
         self.fare_total = 0
         self.in_movement = False
         self.start_time = None
