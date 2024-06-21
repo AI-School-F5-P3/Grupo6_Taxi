@@ -11,6 +11,18 @@ def test_start(taximeter):
 	taximeter.start()
 	assert taximeter.start_road == True
 
+def test_to_continue(taximeter):
+	taximeter.continue_road()
+	assert taximeter.start_road == False
+
+def test_to_stop(taximeter):
+	taximeter.stop()
+	assert taximeter.start_road == False
+
+def test_to_finish(taximeter):
+	taximeter.finish_road()
+	assert taximeter.start_road == True
+
 def test_trip_start_to_finish(taximeter):
 	taximeter.start()
 	time.sleep(4)
