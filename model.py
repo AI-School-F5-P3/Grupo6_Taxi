@@ -1,16 +1,15 @@
-import logging
 import time
 from datetime import datetime
 from fare_ondemand import calculate_peak_fare
 
 class Taximetro:
     fare_movement = 0.05  # tarifa en movimiento en centimos de euro por segundo
-    fare_stop = 0.02  # tarifa en reposo de centimos en euro por segundo
+    fare_stop = 0.02 #tarifa en reposo de centimos en euro por segundo
 
     def __init__(self):
         self.start_road = False
-        self.last_status_change = None
-        self.fare_total = 0  # ira aumentando segun se mueva o este en espera despues de iniciar la carrera
+        self.last_status_change= None
+        self.fare_total = 0 #ira aumentando segun se mueva o este en espera despues de iniciar la carrera
         self.in_movement = False
         self.start_time = None
         self.end_time = None
@@ -24,7 +23,7 @@ class Taximetro:
         self.last_status_change = now
 
     def start(self):
-        logging.info("Comenzar la carrera.")
+        print("Comenzar la carrera.")
         self.start_road = True
         self.last_status_change = time.time()
         self.start_time = datetime.now() # Guarda la fecha y hora de inicio
@@ -35,7 +34,7 @@ class Taximetro:
         self.calculate_fare()
         self.in_movement = False
 
-    def continue_road(self):
+    def continue_road(self):   
         if self.start_road:
             self.calculate_fare()
             self.in_movement = True

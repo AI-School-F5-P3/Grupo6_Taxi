@@ -1,12 +1,8 @@
-import logging
 from model import Taximetro
 import time
 
-logging.basicConfig(filename='taximetro.log', level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
-
 
 def main():
-    logging.info("Inicio del programa Taximetro Digital.")
     taximetro = Taximetro()
 
     print("Bienvenido al Taxímetro Digital!")
@@ -18,6 +14,7 @@ def main():
           - "H" para visualizar el Historial
           - "X" para salir
             con ellos puede usar el programa.\n''')
+
 
     while True:
         comando = input("Ingrese un comando: ").upper()
