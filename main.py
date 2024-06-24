@@ -11,26 +11,34 @@ def main():
 
     print("Bienvenido al Taxímetro Digital!")
     print('''Estos son los comandos disponibles: 
-          - empezar
-          - parar
-          - continuar
-          - finalizar
+          - "E" para empezar 
+          - "P" para parar 
+          - "C" continuar
+          - "F" para finalizar
+          - "H" para visualizar el Historial
+          - "X" para salir
             con ellos puede usar el programa.\n''')
 
     while True:
-        comando = input("Ingrese un comando: ")
-        if comando == "empezar":
+        comando = input("Ingrese un comando: ").upper()
+        if comando == "E":
             taximetro.start()
-        elif comando == "parar":
+        elif comando == "P":
             taximetro.stop()
-        elif comando == "continuar":
+        elif comando == "C":
             taximetro.continue_road()
-        elif comando == "finalizar":
+        elif comando == "F":
             taximetro.finish_road()
             taximetro.clear()
+        elif comando == "H":
+            taximetro.view_history()
+        elif comando == "X":
+            print("Gracias por usar nuestro taximetro. ")
+            break
         else:
             print("Comando inválido. Intente de nuevo.")
-            logging.warning("Comando inválido ingresado.")
+    
+
 
 if __name__ == "__main__":
     main()
