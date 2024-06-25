@@ -1,16 +1,16 @@
 from db_psw import Database
 from db_psw import User
-from db_psw import authenticate_user
 
 
 # Programa principal
 if __name__ == "__main__":
-    db = Database()
     filename = "usuarios.csv"
+    db = Database(filename)
+    
 
     # Autenticar usuarios y agregarlos a la base de datos
     while True:
-        if authenticate_user(db):
+        if Database.authenticate_user(db):
             while True:
                 option = input("¿Desea agregar otro usuario? (y/n): ").lower()
                 if option == 'y':

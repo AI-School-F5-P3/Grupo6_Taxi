@@ -1,7 +1,4 @@
-import csv
-
-
-
+import sqlite3
 
 class User:
     def __init__(self, name, pwd):
@@ -15,15 +12,16 @@ class Database:
         
     def add_user(self, name, pwd):
         # Verificar si el usuario ya existe
-        for user in self.users:
-            if user.name == name:
-                print("Nombre de usuario no disponible")
-                return False
         new_user = User(name, pwd)
         self.users.append(new_user)
         self.save_users()
         print("Usuario agregado exitosamente.")
         return True
+        for user in self.users:
+            if user.name == name:
+                print("Nombre de usuario no disponible")
+                return False
+        
 
     def authenticate_user(self, name, pwd):
         for user in self.users:
@@ -50,7 +48,7 @@ class Database:
         return users
     
     def authenticate_user(db):
-        db = Database('usuarios.csv')
+        db = Database('usuarios.db')
 
         counter = 3
         while counter > 0:
@@ -58,7 +56,7 @@ class Database:
             p = input("Ingrese su contraseña: ")
 
         if db.authenticate_user(n, p):
-            print(f"{n}, ¡Bienvenido al programa!")
+            print(f"{n,p}, ¡Bienvenido al programa!")
             return True
         else:
             counter -= 1
