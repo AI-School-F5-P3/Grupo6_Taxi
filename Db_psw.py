@@ -1,6 +1,6 @@
 import sqlite3
 import bcrypt
-
+import getpass
 class User:
     def __init__(self, name, pwd):
         self.name = name
@@ -52,7 +52,7 @@ class Database:
         counter = 3
         while counter > 0:
             n = input("Ingrese su usuario: ")
-            p = input("Ingrese su contraseña: ")
+            p = getpass.getpass("Ingrese su contraseña: ")
 
             if self.authenticate_user(n, p):
                 print(f"{n}, ¡Bienvenido al programa!")
