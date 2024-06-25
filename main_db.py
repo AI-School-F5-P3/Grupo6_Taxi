@@ -36,3 +36,5 @@ while True:
             break
         else:
             print("Opción no válida. Por favor, intente nuevamente.")
+
+db.close()  # Cierra la conexión a la base de datos al final
