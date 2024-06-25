@@ -3,9 +3,6 @@
  '''
 
 from Db_psw import Database
-from model import Taximetro
-import time
-from Db_psw import User
 from main import main
 
 

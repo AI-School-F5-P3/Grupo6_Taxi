@@ -6,7 +6,7 @@ class User:
         self.pwd = pwd
 
 class Database:
-    def __init__(self, db_filename="usuarios.db"):
+    def __init__(self, db_filename="taximetro.db"):
         self.db_filename = db_filename
         self.conn = sqlite3.connect(self.db_filename)
         self.create_table()
@@ -21,6 +21,15 @@ class Database:
                     pwd TEXT NOT NULL
                 )
             ''')
+            self.conn.commit()
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS trip (
+				id INTEGER PRIMARY KEY,
+                begin_date TEXT,
+                end_date TEXT,
+                total REAL
+			    )
+            """)
             self.conn.commit()
         except sqlite3.Error as e:
             print(f"Error al crear la tabla: {e}")
@@ -57,6 +66,12 @@ class Database:
 
         print("Has superado el límite de intentos.")
         return False
+    
+    def add_trip_database(self, start_time, end_time, total):
+        cur = self.conn.cursor()
+        query = "INSERT INTO trip(begin_date, end_date, total) VALUES(?, ?, ?)"
+        cur.execute(query, (start_time, end_time, total))
+        self.conn.commit()
 
     def close(self):
         self.conn.close()

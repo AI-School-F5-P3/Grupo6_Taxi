@@ -1,7 +1,7 @@
 import time
 from datetime import datetime
 from fare_ondemand import calculate_peak_fare
-from database import add_trip_database
+from Db_psw import Database
 
 class Taximetro:
     fare_movement = 0.05  # tarifa en movimiento en centimos de euro por segundo
@@ -47,7 +47,8 @@ class Taximetro:
         self.end_time = datetime.now() # Guarda la fecha y hora de finalización
         print(f"La carrera ha terminado. El total a cobrar es: {self.fare_total:.2f} euros.")
         self.save_ride_history()
-        add_trip_database(self.start_time, self.end_time, self.fare_total)
+        db = Database()
+        db.add_trip_database(self.start_time, self.end_time, self.fare_total)
         return self.fare_total
     
     def save_ride_history(self):
