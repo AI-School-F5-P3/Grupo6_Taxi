@@ -14,22 +14,27 @@ class Database:
     def create_table(self):
         try:
             cursor = self.conn.cursor()
-            cursor.execute('''
+            querys = [
+                '''
                 CREATE TABLE IF NOT EXISTS users (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL UNIQUE,
                     pwd TEXT NOT NULL
-                )
-            ''')
-            self.conn.commit()
-            cursor.execute("""
-                CREATE TABLE IF NOT EXISTS trip (
+                );
+            ''',
+            '''
+                CREATE TABLE IF NOT EXISTS trips (
 				id INTEGER PRIMARY KEY,
+                user_id INTEGER NOT NULL,
                 begin_date TEXT,
                 end_date TEXT,
-                total REAL
-			    )
-            """)
+                total REAL,
+                FOREIGN KEY (user_id) REFERENCES users (id)
+			    );
+            '''
+            ]
+            for q in querys:
+                cursor.execute(q)
             self.conn.commit()
         except sqlite3.Error as e:
             print(f"Error al crear la tabla: {e}")
@@ -49,29 +54,43 @@ class Database:
         cursor = self.conn.cursor()
         cursor.execute("SELECT * FROM users WHERE name = ? AND pwd = ?", (name, pwd))
         user = cursor.fetchone()
-        return user is not None
+        if user:
+            return user
+        return None
 
     def authenticate_user_with_limit(self):
         counter = 3
         while counter > 0:
             n = input("Ingrese su usuario: ")
             p = input("Ingrese su contraseña: ")
-
-            if self.authenticate_user(n, p):
+            user = self.authenticate_user(n, p)
+            if user != None:
                 print(f"{n}, ¡Bienvenido al programa!")
-                return True
+                return user
             else:
                 counter -= 1
                 print("Usuario o contraseña incorrectos. Intentos restantes:", counter)
 
         print("Has superado el límite de intentos.")
-        return False
+        return 0
     
-    def add_trip_database(self, start_time, end_time, total):
-        cur = self.conn.cursor()
-        query = "INSERT INTO trip(begin_date, end_date, total) VALUES(?, ?, ?)"
-        cur.execute(query, (start_time, end_time, total))
+    def add_trip_database(self, start_time, end_time, total, user):
+        cursor = self.conn.cursor()
+        query = """INSERT INTO 
+                trips(begin_date, end_date, total, user_id) 
+                VALUES(?, ?, ?, ?)"""
+        cursor.execute(query, (start_time, end_time, total, user))
         self.conn.commit()
+
+    def show_history(self, user_id):
+        cursor = self.conn.cursor()
+        query = """SELECT begin_date, end_date, total 
+                FROM trips 
+                WHERE user_id = ?"""
+        cursor.execute(query, (user_id, ))
+        rows = cursor.fetchall()
+        for row in rows:
+            print(row)
 
     def close(self):
         self.conn.close()

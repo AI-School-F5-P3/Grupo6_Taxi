@@ -7,13 +7,14 @@ class Taximetro:
     fare_movement = 0.05  # tarifa en movimiento en centimos de euro por segundo
     fare_stop = 0.02 #tarifa en reposo de centimos en euro por segundo
 
-    def __init__(self):
+    def __init__(self, user):
         self.start_road = False
         self.last_status_change= None
         self.fare_total = 0 #ira aumentando segun se mueva o este en espera despues de iniciar la carrera
         self.in_movement = False
         self.start_time = None
         self.end_time = None
+        self.user = user[0]
 
     def calculate_fare(self):
         now = time.time()
@@ -48,7 +49,7 @@ class Taximetro:
         print(f"La carrera ha terminado. El total a cobrar es: {self.fare_total:.2f} euros.")
         self.save_ride_history()
         db = Database()
-        db.add_trip_database(self.start_time, self.end_time, self.fare_total)
+        db.add_trip_database(self.start_time, self.end_time, self.user)
         return self.fare_total
     
     def save_ride_history(self):
@@ -66,6 +67,10 @@ class Taximetro:
                     print(line.strip())
         except FileNotFoundError:
             print("No hay carreras registradas.")
+        
+    def history_db(self):
+        db = Database()
+        db.show_history(self.user)
 
     def clear(self):
         self.start_road = False

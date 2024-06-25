@@ -19,10 +19,11 @@ while True:
         option = input("Ingrese su opción (1/2/3): ")
 
         if option == '1':
-            if db.authenticate_user_with_limit():
+            user = db.authenticate_user_with_limit()
+            if user:
                 # Aquí podrías llamar a otras funciones o iniciar otra parte del programa
                 print("Acceso permitido.")
-                main() 
+                main(user) 
                 # Aquí es donde inicia el programa del taxímetro
                 break
             else:

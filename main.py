@@ -5,8 +5,8 @@ import time
 #Crea una instancia de la clase Taximetro.
 #Imprime las instrucciones para el usuario.
 #Entra en un bucle infinito para leer comandos del usuario y llamar a los métodos correspondientes del taxímetro.
-def main():
-    taximetro = Taximetro()
+def main(user):
+    taximetro = Taximetro(user)
 
     print("Bienvenido al Taxímetro Digital!")
     print('''Estos son los comandos disponibles: 
@@ -31,7 +31,7 @@ def main():
             taximetro.finish_road()
             taximetro.clear()
         elif comando == "H":
-            taximetro.view_history()
+            taximetro.history_db()
         elif comando == "X":
             print("Gracias por usar nuestro taximetro. ")
             break
