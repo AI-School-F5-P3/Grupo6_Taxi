@@ -1,4 +1,6 @@
 import sqlite3
+import bcrypt
+import getpass
 
 class User:
     def __init__(self, name, pwd):
@@ -40,9 +42,10 @@ class Database:
             print(f"Error al crear la tabla: {e}")
 
     def add_user(self, name, pwd):
+        hashed_pwd = bcrypt.hashpw(pwd.encode('utf-8'), bcrypt.gensalt())
         try:
             cursor = self.conn.cursor()
-            cursor.execute("INSERT INTO users (name, pwd) VALUES (?, ?)", (name, pwd))
+            cursor.execute("INSERT INTO users (name, pwd) VALUES (?, ?)", (name, hashed_pwd.decode('utf-8')))
             self.conn.commit()
             print("Usuario agregado exitosamente.")
             return True
@@ -52,17 +55,19 @@ class Database:
 
     def authenticate_user(self, name, pwd):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT * FROM users WHERE name = ? AND pwd = ?", (name, pwd))
-        user = cursor.fetchone()
-        if user:
-            return user
+        cursor.execute("SELECT * FROM users WHERE name = ?", (name,))
+        result = cursor.fetchone()
+        if result:
+            stored_pwd = result[2] #pwd esta en el indice 2
+            if  bcrypt.checkpw(pwd.encode('utf-8'), stored_pwd.encode('utf-8')):
+                return result
         return None
 
     def authenticate_user_with_limit(self):
         counter = 3
         while counter > 0:
             n = input("Ingrese su usuario: ")
-            p = input("Ingrese su contraseña: ")
+            p = getpass.getpass("Ingrese su contraseña: ")
             user = self.authenticate_user(n, p)
             if user != None:
                 print(f"{n}, ¡Bienvenido al programa!")
@@ -94,4 +99,3 @@ class Database:
 
     def close(self):
         self.conn.close()
-

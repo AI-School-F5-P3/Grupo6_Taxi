@@ -1,9 +1,6 @@
-'''en la main del programa taximetro se debe agregar esta main para que 
- inicie el programa si es correcto el usuario y contraseña
- '''
-
 from Db_psw import Database
 from main import main
+import getpass
 
 
 if __name__ == "__main__":
@@ -30,9 +27,11 @@ while True:
                 print("Acceso denegado.")
         elif option == '2':
             name = input("Ingrese el nombre del nuevo usuario: ")
-            pwd = input("Ingrese la contraseña del nuevo usuario: ")
+            pwd = getpass.getpass("Ingrese la contraseña del nuevo usuario: ")
             db.add_user(name, pwd)
         elif option == '3':
+            db.close() # Cierra la conexión a la base de datos al final
+            print("¡Hasta pronto!")
             break
         else:
             print("Opción no válida. Por favor, intente nuevamente.")
