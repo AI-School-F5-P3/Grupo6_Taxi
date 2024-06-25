@@ -1,38 +1,43 @@
+
+
+'''en la main del programa taximetro se debe agregar esta main para que 
+ inicie el programa si es correcto el usuario y contraseña
+ '''
+
 from db_psw import Database
+from model import Taximetro
+import time
 from db_psw import User
 
 
-# Programa principal
 if __name__ == "__main__":
-    filename = "usuarios.csv"
-    db = Database(filename)
-    
+    db = Database()  # Crea una instancia de la base de datos
 
-    # Autenticar usuarios y agregarlos a la base de datos
-    while True:
-        if Database.authenticate_user_2(db):
-            while True:
-                option = input("¿Desea agregar otro usuario? (y/n): ").lower()
-                if option == 'y':
-                    name = input("Ingrese el nombre del usuario: ")
-                    pwd = input("Ingrese la contraseña del usuario: ")
-                    db.add_user(name, pwd)
-                elif option == 'n':
-                    break
-                else:
-                    print("Opción no válida. Intente de nuevo.")
+    # Añadir un nuevo usuario (puedes comentar esta línea después de la primera ejecución)
+    db.add_user("admin", "admin123")
+while True:
+        print("Seleccione una opción:")
+        print("1. Iniciar sesión")
+        print("2. Crear un nuevo usuario")
+        print("3. Salir")
+        option = input("Ingrese su opción (1/2/3): ")
+
+        if option == '1':
+            if db.authenticate_user_with_limit():
+                # Aquí podrías llamar a otras funciones o iniciar otra parte del programa
+                print("Acceso permitido.")
+                main_taximetro() 
+                # Aquí es donde inicia el programa del taxímetro
+                break
+            else:
+                print("Acceso denegado.")
+        elif option == '2':
+            name = input("Ingrese el nombre del nuevo usuario: ")
+            pwd = input("Ingrese la contraseña del nuevo usuario: ")
+            db.add_user(name, pwd)
+        elif option == '3':
             break
         else:
-            option = input("¿Desea intentar nuevamente? (s/n): ").lower()
-            if option != 's':
-                break
+            print("Opción no válida. Por favor, intente nuevamente.")
 
-    # Mostrar usuarios en la base de datos (opcional)
-    print("Usuarios en la base de datos:")
-    for user in db.users:
-        print(f"Nombre: {user.name}, Contraseña: {user.pwd}")
-
-    # Guardar usuarios en un archivo (opcional)
-    filename = 'usuarios.csv'  # Nombre del archivo donde se guardarán los usuarios
-    db.save_users()
-    print(f"Usuarios guardados en el archivo {filename}.")
+db.close()  # Cierra la conexión a la base de datos al final

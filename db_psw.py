@@ -1,5 +1,4 @@
 import sqlite3
-import csv
 
 class User:
     def __init__(self, name, pwd):
@@ -7,57 +6,50 @@ class User:
         self.pwd = pwd
 
 class Database:
-    def __init__(self, filename):
-        self.filename = filename
-        self.users = self.load_users()
-        
-    def add_user(self, name, pwd):
-        # Verificar si el usuario ya existe
-        new_user = User(name, pwd)
-        self.users.append(new_user)
-        self.save_users()
-        print("Usuario agregado exitosamente.")
-        return True
-        for user in self.users:
-            if user.name == name:
-                print("Nombre de usuario no disponible")
-                return False
-        
+    def __init__(self, db_filename="usuarios.db"):
+        self.db_filename = db_filename
+        self.conn = sqlite3.connect(self.db_filename)
+        self.create_table()
 
-    def authenticate_user_db(self, name, pwd):
-        for user in self.users:
-            if user.name == name and user.pwd == pwd:
-                return True
-        return False
-
-    def save_users(self):
-        with open(self.filename, mode='w', newline='') as file:
-            writer = csv.writer(file)
-            for user in self.users:
-                writer.writerow([user.name, user.pwd])
-
-    def load_users(self):
-        users = []
+    def create_table(self):
         try:
-            with open(self.filename, mode='r') as file: 
-                reader = csv.reader(file)
-                for row in reader:
-                    if row:
-                        users.append(User(row[0], row[1]))
-        except FileNotFoundError:
-            pass #sino se encuentra el archivo se devuelve la lista vacia
-        return users
-    
-    def authenticate_user_2(db):
-        db = Database('usuarios.db')
+            cursor = self.conn.cursor()
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS users (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL UNIQUE,
+                    pwd TEXT NOT NULL
+                )
+            ''')
+            self.conn.commit()
+        except sqlite3.Error as e:
+            print(f"Error al crear la tabla: {e}")
 
+    def add_user(self, name, pwd):
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute("INSERT INTO users (name, pwd) VALUES (?, ?)", (name, pwd))
+            self.conn.commit()
+            print("Usuario agregado exitosamente.")
+            return True
+        except sqlite3.IntegrityError:
+            print("El usuario ya existe.")
+            return False
+
+    def authenticate_user(self, name, pwd):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE name = ? AND pwd = ?", (name, pwd))
+        user = cursor.fetchone()
+        return user is not None
+
+    def authenticate_user_with_limit(self):
         counter = 3
         while counter > 0:
             n = input("Ingrese su usuario: ")
             p = input("Ingrese su contraseña: ")
 
-            if db.authenticate_user_db(n, p):
-                print(f"{n,p}, ¡Bienvenido al programa!")
+            if self.authenticate_user(n, p):
+                print(f"{n}, ¡Bienvenido al programa!")
                 return True
             else:
                 counter -= 1
@@ -65,3 +57,7 @@ class Database:
 
         print("Has superado el límite de intentos.")
         return False
+
+    def close(self):
+        self.conn.close()
+
