@@ -1,4 +1,5 @@
 import sqlite3
+import csv
 
 class User:
     def __init__(self, name, pwd):
@@ -23,7 +24,7 @@ class Database:
                 return False
         
 
-    def authenticate_user(self, name, pwd):
+    def authenticate_user_db(self, name, pwd):
         for user in self.users:
             if user.name == name and user.pwd == pwd:
                 return True
@@ -47,7 +48,7 @@ class Database:
             pass #sino se encuentra el archivo se devuelve la lista vacia
         return users
     
-    def authenticate_user(db):
+    def authenticate_user_2(db):
         db = Database('usuarios.db')
 
         counter = 3
@@ -55,12 +56,12 @@ class Database:
             n = input("Ingrese su usuario: ")
             p = input("Ingrese su contraseña: ")
 
-        if db.authenticate_user(n, p):
-            print(f"{n,p}, ¡Bienvenido al programa!")
-            return True
-        else:
-            counter -= 1
-            print("Usuario o contraseña incorrectos. Intentos restantes:", counter)
+            if db.authenticate_user_db(n, p):
+                print(f"{n,p}, ¡Bienvenido al programa!")
+                return True
+            else:
+                counter -= 1
+                print("Usuario o contraseña incorrectos. Intentos restantes:", counter)
 
         print("Has superado el límite de intentos.")
         return False

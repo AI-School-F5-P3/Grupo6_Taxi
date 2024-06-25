@@ -10,7 +10,7 @@ if __name__ == "__main__":
 
     # Autenticar usuarios y agregarlos a la base de datos
     while True:
-        if Database.authenticate_user(db):
+        if Database.authenticate_user_2(db):
             while True:
                 option = input("¿Desea agregar otro usuario? (y/n): ").lower()
                 if option == 'y':
@@ -34,5 +34,5 @@ if __name__ == "__main__":
 
     # Guardar usuarios en un archivo (opcional)
     filename = 'usuarios.csv'  # Nombre del archivo donde se guardarán los usuarios
-    db.save_users(filename)
+    db.save_users()
     print(f"Usuarios guardados en el archivo {filename}.")
