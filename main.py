@@ -1,12 +1,12 @@
 from model import Taximetro
 import time
-from logger import log_info, log_warning, log_error  # Importa las funciones de logging
+from logger import log_info, log_warning, log_error
 
-def main():
-    taximetro = Taximetro()
+def main(user):
+    taximetro = Taximetro(user)
 
+    log_info("Bienvenido al Taxímetro Digital! Programa iniciado.")
     print("Bienvenido al Taxímetro Digital!")
-    log_info("Programa iniciado.")  # Log de inicio del programa
     print('''Estos son los comandos disponibles: 
           - "E" para empezar 
           - "P" para parar 
@@ -20,22 +20,28 @@ def main():
         comando = input("Ingrese un comando: ").upper()
         if comando == "E":
             taximetro.start()
+            log_info(f"Comando {comando}: Taxímetro iniciado.")
         elif comando == "P":
             taximetro.stop()
+            log_info(f"Comando {comando}: Taxímetro detenido.")
         elif comando == "C":
             taximetro.continue_road()
+            log_info(f"Comando {comando}: Taxímetro continuado.")
         elif comando == "F":
             taximetro.finish_road()
             taximetro.clear()
+            log_info(f"Comando {comando}: Taxímetro finalizado y reiniciado.")
         elif comando == "H":
-            taximetro.view_history()
+            taximetro.history_db()
+            log_info(f"Comando {comando}: Historial visualizado.")
         elif comando == "X":
             print("Gracias por usar nuestro taximetro.")
-            log_info("Programa terminado por el usuario.")  # Log de fin del programa
+            log_info("Programa terminado por el usuario.")
             break
         else:
             print("Comando inválido. Intente de nuevo.")
-            log_warning("Comando inválido ingresado.")  # Log de comando inválido
+            log_warning("Comando inválido ingresado.")
 
 if __name__ == "__main__":
-    main()
+    user = "Usuario predeterminado"  # Asumiendo que se obtiene el nombre de usuario de alguna manera
+    main(user)
