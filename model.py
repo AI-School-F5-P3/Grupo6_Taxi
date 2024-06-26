@@ -34,27 +34,40 @@ class Taximetro:
         self.last_status_change = time.time()
         self.start_time = datetime.now()
         logging.info("Comenzar la carrera.")
+        print("Comenzar la carrera.")
 
     def stop(self):
-        self.calculate_fare()
-        self.in_movement = False
-        logging.info("El taxi se ha detenido.")
+        if self.in_movement:
+            self.calculate_fare()
+            self.in_movement = False
+            logging.info("El taxi se ha detenido.")
+            print("El taxi se ha detenido.")
+        else:
+            print("Inicie el movimiento")
 
     def continue_road(self):
-        if self.start_road:
+        if self.start_road and self.in_movement == False:
             self.calculate_fare()
             self.in_movement = True
             logging.info("El taxi está en movimiento.")
+            print("El taxi está en movimiento.")
+        else:
+            print("El taxi ya esta en movimiento.")
+
 
     def finish_road(self):
-        self.calculate_fare()
-        self.start_road = False
-        self.end_time = datetime.now()
-        logging.info(f"La carrera ha terminado. El total a cobrar es: {self.fare_total:.2f} euros.")
-        self.save_ride_history()
-        db = Database()
-        db.add_trip_database(self.start_time, self.end_time, self.fare_total, self.user)
-        return self.fare_total
+        if self.start_road:
+            self.calculate_fare()
+            self.start_road = False
+            self.end_time = datetime.now()
+            logging.info(f"La carrera ha terminado. El total a cobrar es: {self.fare_total:.2f} euros.")
+            print(f"La carrera ha terminado. El total a cobrar es: {self.fare_total:.2f} euros.")
+            self.save_ride_history()
+            db = Database()
+            db.add_trip_database(self.start_time, self.end_time, self.fare_total, self.user)
+            return self.fare_total
+        else:
+            print("La carrera no ha sido iniciada")
 
     def save_ride_history(self):
         with open('rides_history.txt', mode='a', encoding='utf-8') as file:

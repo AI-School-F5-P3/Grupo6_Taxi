@@ -1,47 +1,39 @@
-from model import Taximetro
-import time
-from logger import log_info, log_warning, log_error
+from Db_psw import Database
+from main import main
+import getpass
 
-def main(user):
-    taximetro = Taximetro(user)
-
-    log_info("Bienvenido al Taxímetro Digital! Programa iniciado.")
-    print("Bienvenido al Taxímetro Digital!")
-    print('''Estos son los comandos disponibles: 
-          - "E" para empezar 
-          - "P" para parar 
-          - "C" para continuar
-          - "F" para finalizar
-          - "H" para visualizar el Historial
-          - "X" para salir
-            con ellos puede usar el programa.\n''')
-
-    while True:
-        comando = input("Ingrese un comando: ").upper()
-        if comando == "E":
-            taximetro.start()
-            log_info(f"Comando {comando}: Taxímetro iniciado.")
-        elif comando == "P":
-            taximetro.stop()
-            log_info(f"Comando {comando}: Taxímetro detenido.")
-        elif comando == "C":
-            taximetro.continue_road()
-            log_info(f"Comando {comando}: Taxímetro continuado.")
-        elif comando == "F":
-            taximetro.finish_road()
-            taximetro.clear()
-            log_info(f"Comando {comando}: Taxímetro finalizado y reiniciado.")
-        elif comando == "H":
-            taximetro.history_db()
-            log_info(f"Comando {comando}: Historial visualizado.")
-        elif comando == "X":
-            print("Gracias por usar nuestro taximetro.")
-            log_info("Programa terminado por el usuario.")
-            break
-        else:
-            print("Comando inválido. Intente de nuevo.")
-            log_warning("Comando inválido ingresado.")
 
 if __name__ == "__main__":
-    user = "Usuario predeterminado"  # Asumiendo que se obtiene el nombre de usuario de alguna manera
-    main(user)
+    db = Database()  # Crea una instancia de la base de datos
+
+    # Añadir un nuevo usuario (puedes comentar esta línea después de la primera ejecución)
+    #db.add_user("admin", "admin123")
+while True:
+        print("Seleccione una opción:")
+        print("1. Iniciar sesión")
+        print("2. Crear un nuevo usuario")
+        print("3. Salir")
+        option = input("Ingrese su opción (1/2/3): ")
+
+        if option == '1':
+            user = db.authenticate_user_with_limit()
+            if user:
+                # Aquí podrías llamar a otras funciones o iniciar otra parte del programa
+                print("Acceso permitido.")
+                main(user) 
+                # Aquí es donde inicia el programa del taxímetro
+                break
+            else:
+                print("Acceso denegado.")
+        elif option == '2':
+            name = input("Ingrese el nombre del nuevo usuario: ")
+            pwd = getpass.getpass("Ingrese la contraseña del nuevo usuario: ")
+            db.add_user(name, pwd)
+        elif option == '3':
+            db.close() # Cierra la conexión a la base de datos al final
+            print("¡Hasta pronto!")
+            break
+        else:
+            print("Opción no válida. Por favor, intente nuevamente.")
+
+db.close()  # Cierra la conexión a la base de datos al final
