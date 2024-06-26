@@ -12,6 +12,7 @@ class Taximetro:
     fare_stop = 0.02  # tarifa en reposo de centimos en euro por segundo
 
     def __init__(self, user):
+    def __init__(self, user):
         self.start_road = False
         self.last_status_change = None
         self.fare_total = 0
