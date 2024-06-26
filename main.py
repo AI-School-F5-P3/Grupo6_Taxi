@@ -2,8 +2,12 @@ from model import Taximetro
 import time
 from logger import log_info, log_warning, log_error  # Importa las funciones de logging
 
-def main():
-    taximetro = Taximetro()
+#Función main():
+#Crea una instancia de la clase Taximetro.
+#Imprime las instrucciones para el usuario.
+#Entra en un bucle infinito para leer comandos del usuario y llamar a los métodos correspondientes del taxímetro.
+def main(user):
+    taximetro = Taximetro(user)
 
     print("Bienvenido al Taxímetro Digital!")
     log_info("Programa iniciado.")  # Log de inicio del programa
@@ -28,7 +32,7 @@ def main():
             taximetro.finish_road()
             taximetro.clear()
         elif comando == "H":
-            taximetro.view_history()
+            taximetro.history_db()
         elif comando == "X":
             print("Gracias por usar nuestro taximetro.")
             log_info("Programa terminado por el usuario.")  # Log de fin del programa

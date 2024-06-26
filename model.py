@@ -1,20 +1,20 @@
 import time
 from datetime import datetime
 from fare_ondemand import calculate_peak_fare
-from logger import log_info, log_warning, log_error  # Importa las funciones de logging
+from Db_psw import Database
 
 class Taximetro:
     fare_movement = 0.05  # tarifa en movimiento en centimos de euro por segundo
     fare_stop = 0.02  # tarifa en reposo de centimos en euro por segundo
 
-    def __init__(self):
+    def __init__(self, user):
         self.start_road = False
         self.last_status_change = None
         self.fare_total = 0  # ira aumentando segun se mueva o este en espera despues de iniciar la carrera
         self.in_movement = False
         self.start_time = None
         self.end_time = None
-        log_info("Taxímetro inicializado.")  # Log de inicialización
+        self.user = user[0]
 
     def calculate_fare(self):
         now = time.time()
@@ -51,7 +51,8 @@ class Taximetro:
         self.end_time = datetime.now()  # Guarda la fecha y hora de finalización
         print(f"La carrera ha terminado. El total a cobrar es: {self.fare_total:.2f} euros.")
         self.save_ride_history()
-        log_info(f"Carrera finalizada a las {self.end_time}. Total: {self.fare_total:.2f} euros.")  # Log de carrera finalizada
+        db = Database()
+        db.add_trip_database(self.start_time, self.end_time, self.fare_total, self.user)
         return self.fare_total
 
     def save_ride_history(self):
@@ -72,6 +73,10 @@ class Taximetro:
         except FileNotFoundError:
             log_warning("No hay carreras registradas.")  # Log de historial no encontrado
             print("No hay carreras registradas.")
+        
+    def history_db(self):
+        db = Database()
+        db.show_history(self.user)
 
     def clear(self):
         self.start_road = False
