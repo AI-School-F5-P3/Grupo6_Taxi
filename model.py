@@ -54,6 +54,7 @@ class Taximetro:
         self.save_ride_history()
         db = Database()
         db.add_trip_database(self.start_time, self.end_time, self.fare_total, self.user)
+        return self.fare_total
 
     def save_ride_history(self):
         with open('rides_history.txt', mode='a', encoding='utf-8') as file:

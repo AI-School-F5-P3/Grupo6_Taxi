@@ -1,92 +1,47 @@
-<<<<<<< HEAD
-import logging
-=======
->>>>>>> dev
-from Db_psw import Database
-from main import main
-import getpass
+from model import Taximetro
+import time
+from logger import log_info, log_warning, log_error
 
-<<<<<<< HEAD
-# Configuración de logging
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(levelname)s - %(message)s',
-                    filename='app.log',
-                    filemode='a')
-console = logging.StreamHandler()
-console.setLevel(logging.INFO)
-formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
-console.setFormatter(formatter)
-logging.getLogger('').addHandler(console)
+def main(user):
+    taximetro = Taximetro(user)
 
-if __name__ == "__main__":
-    logging.info("Inicio del programa")
-    db = Database()  # Crea una instancia de la base de datos
-    logging.debug("Instancia de la base de datos creada")
+    log_info("Bienvenido al Taxímetro Digital! Programa iniciado.")
+    print("Bienvenido al Taxímetro Digital!")
+    print('''Estos son los comandos disponibles: 
+          - "E" para empezar 
+          - "P" para parar 
+          - "C" para continuar
+          - "F" para finalizar
+          - "H" para visualizar el Historial
+          - "X" para salir
+            con ellos puede usar el programa.\n''')
 
     while True:
-=======
+        comando = input("Ingrese un comando: ").upper()
+        if comando == "E":
+            taximetro.start()
+            log_info(f"Comando {comando}: Taxímetro iniciado.")
+        elif comando == "P":
+            taximetro.stop()
+            log_info(f"Comando {comando}: Taxímetro detenido.")
+        elif comando == "C":
+            taximetro.continue_road()
+            log_info(f"Comando {comando}: Taxímetro continuado.")
+        elif comando == "F":
+            taximetro.finish_road()
+            taximetro.clear()
+            log_info(f"Comando {comando}: Taxímetro finalizado y reiniciado.")
+        elif comando == "H":
+            taximetro.history_db()
+            log_info(f"Comando {comando}: Historial visualizado.")
+        elif comando == "X":
+            print("Gracias por usar nuestro taximetro.")
+            log_info("Programa terminado por el usuario.")
+            break
+        else:
+            print("Comando inválido. Intente de nuevo.")
+            log_warning("Comando inválido ingresado.")
 
 if __name__ == "__main__":
-    db = Database()  # Crea una instancia de la base de datos
-
-    # Añadir un nuevo usuario (puedes comentar esta línea después de la primera ejecución)
-    #db.add_user("admin", "admin123")
-while True:
->>>>>>> dev
-        print("Seleccione una opción:")
-        print("1. Iniciar sesión")
-        print("2. Crear un nuevo usuario")
-        print("3. Salir")
-        option = input("Ingrese su opción (1/2/3): ")
-
-        if option == '1':
-<<<<<<< HEAD
-            logging.info("Intento de inicio de sesión")
-            user = db.authenticate_user_with_limit()
-            if user:
-                logging.info("Acceso permitido para el usuario")
-                print("Acceso permitido.")
-                main(user)
-                break
-            else:
-                logging.warning("Acceso denegado para el intento de inicio de sesión")
-=======
-            user = db.authenticate_user_with_limit()
-            if user:
-                # Aquí podrías llamar a otras funciones o iniciar otra parte del programa
-                print("Acceso permitido.")
-                main(user) 
-                # Aquí es donde inicia el programa del taxímetro
-                break
-            else:
->>>>>>> dev
-                print("Acceso denegado.")
-        elif option == '2':
-            name = input("Ingrese el nombre del nuevo usuario: ")
-            pwd = getpass.getpass("Ingrese la contraseña del nuevo usuario: ")
-<<<<<<< HEAD
-            logging.info(f"Creando nuevo usuario: {name}")
-            db.add_user(name, pwd)
-            logging.debug(f"Usuario {name} añadido exitosamente")
-        elif option == '3':
-            logging.info("Cerrando la base de datos y terminando el programa")
-            db.close()
-            print("¡Hasta pronto!")
-            break
-        else:
-            logging.error("Opción no válida ingresada")
-            print("Opción no válida. Por favor, intente nuevamente.")
-
-    db.close()  # Asegura que la conexión a la base de datos se cierre correctamente
-    logging.info("Programa terminado")
-=======
-            db.add_user(name, pwd)
-        elif option == '3':
-            db.close() # Cierra la conexión a la base de datos al final
-            print("¡Hasta pronto!")
-            break
-        else:
-            print("Opción no válida. Por favor, intente nuevamente.")
-
-db.close()  # Cierra la conexión a la base de datos al final
->>>>>>> dev
+    user = "Usuario predeterminado"  # Asumiendo que se obtiene el nombre de usuario de alguna manera
+    main(user)
