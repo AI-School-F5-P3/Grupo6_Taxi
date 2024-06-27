@@ -1,36 +1,55 @@
 from model import Taximetro
 import time
+from logger import log_info, log_warning, log_error
 
-#Función main():
-#Crea una instancia de la clase Taximetro.
-#Imprime las instrucciones para el usuario.
-#Entra en un bucle infinito para leer comandos del usuario y llamar a los métodos correspondientes del taxímetro.
-def main():
-    taximetro = Taximetro()
+def main(user):
+    taximetro = Taximetro(user)
 
+    log_info("Bienvenido al Taxímetro Digital! Programa iniciado.")
     print("Bienvenido al Taxímetro Digital!")
     print('''Estos son los comandos disponibles: 
-          - empezar
-          - parar
-          - continuar
-          - finalizar
+          - "E" para empezar 
+          - "P" para parar 
+          - "C" para continuar
+          - "F" para finalizar
+          - "H" para visualizar el Historial
+          - "X" para salir
             con ellos puede usar el programa.\n''')
 
-
     while True:
-        comando = input("Ingrese un comando: ")
-        if comando == "empezar":
+        comando = input("Ingrese un comando: ").upper()
+        if comando == "E":
             taximetro.start()
-        elif comando == "parar":
+            log_info(f"Comando {comando}: Taxímetro iniciado.")
+        elif comando == "P":
             taximetro.stop()
-        elif comando == "continuar":
+            log_info(f"Comando {comando}: Taxímetro detenido.")
+        elif comando == "C":
             taximetro.continue_road()
-        elif comando == "finalizar":
+            log_info(f"Comando {comando}: Taxímetro continuado.")
+        elif comando == "F":
             taximetro.finish_road()
             taximetro.clear()
+            log_info(f"Comando {comando}: Taxímetro finalizado y reiniciado.")
+            print('''Estos son los comandos disponibles: 
+                - "E" para empezar 
+                - "P" para parar 
+                - "C" para continuar
+                - "F" para finalizar
+                - "H" para visualizar el Historial
+                - "X" para salir
+                    con ellos puede usar el programa.\n''')
+        elif comando == "H":
+            taximetro.history_db()
+            log_info(f"Comando {comando}: Historial visualizado.")
+        elif comando == "X":
+            print("Gracias por usar nuestro taximetro.")
+            log_info("Programa terminado por el usuario.")
+            break
         else:
             print("Comando inválido. Intente de nuevo.")
-
+            log_warning("Comando inválido ingresado.")
 
 if __name__ == "__main__":
-    main()
+    user = "Usuario predeterminado"  # Asumiendo que se obtiene el nombre de usuario de alguna manera
+    main(user)
