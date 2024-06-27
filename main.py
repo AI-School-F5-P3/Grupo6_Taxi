@@ -31,6 +31,14 @@ def main(user):
             taximetro.finish_road()
             taximetro.clear()
             log_info(f"Comando {comando}: Taxímetro finalizado y reiniciado.")
+            print('''Estos son los comandos disponibles: 
+                - "E" para empezar 
+                - "P" para parar 
+                - "C" para continuar
+                - "F" para finalizar
+                - "H" para visualizar el Historial
+                - "X" para salir
+                    con ellos puede usar el programa.\n''')
         elif comando == "H":
             taximetro.history_db()
             log_info(f"Comando {comando}: Historial visualizado.")
