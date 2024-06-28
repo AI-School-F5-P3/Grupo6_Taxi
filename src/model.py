@@ -107,7 +107,14 @@ class Taximetro:
 #se define la funcion para ver y escribir el historial en una base de datos, se importo la funcion Database del archivo Ds_psw
     def history_db(self):
         db = Database()
-        db.show_history(self.user)
+        history = db.show_history(self.user)
+        print("# | Hora de inicio\t\t| Hora de fin\t\t\t| Total")
+        print("-"*70)
+        i = 1
+        for history in history:
+            print(f"{i} | {history[0]}  | {history[1]} | {history[2]}")
+            print("-"*70)
+            i += 1
         logging.info("Historial de la base de datos visualizado.")
 
 #se define la funcion clear, en donde el taxi no esta en movimiento, y los estados de los atributos vuelven a reiniciarse,

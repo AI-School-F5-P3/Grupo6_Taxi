@@ -95,9 +95,7 @@ class Database:
                 FROM trips 
                 WHERE user_id = ?"""
         cursor.execute(query, (user_id, ))
-        rows = cursor.fetchall()
-        for row in rows:
-            print(row)
+        return cursor.fetchall()
 
 #se define la funcion para cerrar la conexión actual con la base de datos SQLite.
     def close(self):
