@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaxiPy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='logopy.png') }}" alt="TaxiPy Logo" class="logo">
+        <p class="fare" id="fare">Total a cobrar: €{{ fare }}</p>
+        {% if total_time %}
+        <p class="total-time" id="total_time">Tiempo total de la carrera: {{ total_time }}</p>
+        {% else %}
+        <p class="total-time" id="total_time" style="display:none;"></p>
+        {% endif %}
+        <form action="{{ url_for('start') }}" method="post">
+            <button type="submit">Comenzar</button>
+        </form>
+        <form action="{{ url_for('stop') }}" method="post">
+            <button type="submit">Detener</button>
+        </form>
+        <form action="{{ url_for('continue_road') }}" method="post">
+            <button type="submit">Continuar</button>
+        </form>
+        <form action="{{ url_for('finalize_ride') }}" method="post">
+            <button type="submit">Finalizar</button>
+        </form>
+        <a href="{{ url_for('history') }}"><button>Ver Historial de Carreras</button></a>
+        <div class="feedback" id="feedback">{{ feedback }}</div>
+    </div>
+</body>
+</html>
