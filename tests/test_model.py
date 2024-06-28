@@ -1,13 +1,13 @@
 import pytest
 import time
 
-from fare_ondemand import calculate_peak_fare
+from src.fare_ondemand import calculate_peak_fare
 
-from model import Taximetro
+from src.model import Taximetro
 
 @pytest.fixture
 def taximeter():
-	return Taximetro()
+	return Taximetro((1, ))
 
 @pytest.fixture
 def fare_move():

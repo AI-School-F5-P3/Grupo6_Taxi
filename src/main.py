@@ -2,24 +2,27 @@ from model import Taximetro
 import time
 from logger import log_info, log_warning, log_error
 
+def show_menu(taximetro):
+    print("\n---------------- Menú ------------------")
+    print(f"\nTarifa movimiento: {taximetro.fare_movement}" \
+		f"\nTarifa parado: {taximetro.fare_stop}\n")
+    print('''Estos son los comandos disponibles: 
+                - "E" para empezar 
+                - "P" para parar 
+                - "C" para continuar
+                - "F" para finalizar
+                - "H" para visualizar el Historial
+                - "X" para salir\n''')
 
 #se llama a la funcion main con el argumento user
 def main(user):
     taximetro = Taximetro(user)
 
-
 #se muestra la bienvenida
 #se explican los comandos de uso del CLI
     log_info("Bienvenido al Taxímetro Digital! Programa iniciado.")
-    print("Bienvenido al Taxímetro Digital!")
-    print('''Estos son los comandos disponibles: 
-          - "E" para empezar 
-          - "P" para parar 
-          - "C" para continuar
-          - "F" para finalizar
-          - "H" para visualizar el Historial
-          - "X" para salir
-            con ellos puede usar el programa.\n''')
+    print("\n\tBienvenido al Taxímetro Digital!")
+    show_menu(taximetro)
 
 #se inicia un bucle while con las condicionales para cada comando
     while True:
@@ -37,14 +40,7 @@ def main(user):
             taximetro.finish_road()
             taximetro.clear()
             log_info(f"Comando {comando}: Taxímetro finalizado y reiniciado.")
-            print('''Estos son los comandos disponibles: 
-                - "E" para empezar 
-                - "P" para parar 
-                - "C" para continuar
-                - "F" para finalizar
-                - "H" para visualizar el Historial
-                - "X" para salir
-                    con ellos puede usar el programa.\n''')
+            show_menu(taximetro)
         elif comando == "H":
             taximetro.history_db()
             log_info(f"Comando {comando}: Historial visualizado.")

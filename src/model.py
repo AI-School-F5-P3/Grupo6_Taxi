@@ -60,7 +60,7 @@ class Taximetro:
             self.start_road = False
             self.end_time = datetime.now()
             logging.info(f"La carrera ha terminado. El total a cobrar es: {self.fare_total:.2f} euros.")
-            print(f"La carrera ha terminado. El total a cobrar es: {self.fare_total:.2f} euros.")
+            print(f"\033[32mLa carrera ha terminado. El total a cobrar es: {self.fare_total:.2f} euros.\033[0m")
             self.save_ride_history()
             db = Database()
             db.add_trip_database(self.start_time, self.end_time, round(self.fare_total,2), self.user)
