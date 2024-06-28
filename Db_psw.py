@@ -1,5 +1,5 @@
 import sqlite3
-import bcrypt
+from crypt import bcrypt
 import getpass
 
 class User:
