@@ -18,7 +18,7 @@ class Taximetro:
         self.in_movement = False
         self.start_time = None
         self.end_time = None
-        self.user = user
+        self.user = user[0]
         logging.info(f"Taximetro inicializado para el usuario {self.user}")
 
     def calculate_fare(self):
