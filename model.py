@@ -77,7 +77,7 @@ class Taximetro:
             print(f"La carrera ha terminado. El total a cobrar es: {self.fare_total:.2f} euros.")
             self.save_ride_history()
             db = Database()
-            db.add_trip_database(self.start_time, self.end_time, self.fare_total, self.user)
+            db.add_trip_database(self.start_time, self.end_time, round(self.fare_total,2), self.user)
             return self.fare_total
         else:
             print("La carrera no ha sido iniciada")

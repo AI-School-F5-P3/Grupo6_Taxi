@@ -4,11 +4,6 @@ import getpass
 
 
 
-#se define la clase User, con los atributos, name y pwd que corresponden a nombre y contraseña
-class User:
-    def __init__(self, name, pwd):
-        self.name = name
-        self.pwd = pwd
 
 #se define la clase Database con los atributos db_filename
 class Database:
