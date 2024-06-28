@@ -114,7 +114,7 @@ class Taximetro:
         print("-"*70)
         i = 1
         for history in history:
-            print(f"{i} | {history[0]}  | {history[1]} | {history[2]}")
+            print(f"{i} | {history[0]}  | {history[1]}\t| {history[2]}")
             print("-"*70)
             i += 1
         logging.info("Historial de la base de datos visualizado.")
