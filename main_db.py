@@ -18,7 +18,6 @@ while True:
         if option == '1':
             user = db.authenticate_user_with_limit()
             if user:
-                # Aquí podrías llamar a otras funciones o iniciar otra parte del programa
                 print("Acceso permitido.")
                 main(user) 
                 # Aquí es donde inicia el programa del taxímetro

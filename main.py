@@ -2,9 +2,14 @@ from model import Taximetro
 import time
 from logger import log_info, log_warning, log_error
 
+
+#se llama a la funcion main con el argumento user
 def main(user):
     taximetro = Taximetro(user)
 
+
+#se muestra la bienvenida
+#se explican los comandos de uso del CLI
     log_info("Bienvenido al Taxímetro Digital! Programa iniciado.")
     print("Bienvenido al Taxímetro Digital!")
     print('''Estos son los comandos disponibles: 
@@ -16,6 +21,7 @@ def main(user):
           - "X" para salir
             con ellos puede usar el programa.\n''')
 
+#se inicia un bucle while con las condicionales para cada comando
     while True:
         comando = input("Ingrese un comando: ").upper()
         if comando == "E":
@@ -50,6 +56,8 @@ def main(user):
             print("Comando inválido. Intente de nuevo.")
             log_warning("Comando inválido ingresado.")
 
+
+# Este bloque solo se ejecutará si este script es el punto de entrada principal
 if __name__ == "__main__":
     user = "Usuario predeterminado"  # Asumiendo que se obtiene el nombre de usuario de alguna manera
     main(user)
